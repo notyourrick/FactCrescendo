@@ -12,6 +12,10 @@ target 'wprestapi' do
     :hermes_enabled => false
   )
 
+  pod 'RNSharedElement', :path => '../node_modules/react-native-shared-element'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'wprestapiTests' do
     inherit! :complete
     # Pods for testing

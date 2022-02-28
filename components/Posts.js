@@ -8,27 +8,43 @@ import {
   FlatList,
   useWindowDimensions,
   Image,
+  ScrollView,
 } from 'react-native';
 import HTML from 'react-native-renders-html';
 
 const Posts = ({navigation}) => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const {width} = useWindowDimensions();
   const apiUrl = 'https://www.factcrescendo.com/wp-json/wp/v2/posts';
 
   useEffect(() => {
+    let mount = true;
+
+    if (mount) {
+      getPosts();
+    }
+
+    return () => {
+      mount = false;
+    };
+  }, []);
+
+  const getPosts = () => {
+    setLoading(true);
     fetch(apiUrl)
       .then(res => res.json())
       .then(json => setPosts(json))
       .catch(err => console.log(err));
-  }, []);
-
-  console.log(posts);
+    setLoading(false);
+  };
 
   return (
     <SafeAreaView style={{flex: 1, paddingTop: 15, padding: 10}}>
       {posts.length > 0 ? (
         <FlatList
+          onRefresh={getPosts}
+          refreshing={loading}
           keyExtractor={item => item.id.toString()}
           data={posts}
           renderItem={({item}) => (

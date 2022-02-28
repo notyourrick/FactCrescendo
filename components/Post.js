@@ -5,29 +5,29 @@ import {
   View,
   useWindowDimensions,
   Image,
+  Linking,
   ActivityIndicator,
+  StyleSheet,
 } from 'react-native';
 import HTML from 'react-native-renders-html';
 import {IGNORED_TAGS} from 'react-native-renders-html/src/HTMLUtils';
+import colors from '../assets/colors/colors';
 
 const Post = ({route, navigation}) => {
   const {width} = useWindowDimensions();
   const {title, content, img} = route.params;
-  const regex = /[!@#$%^&*<>0-9;]/g;
 
   return (
-    <ScrollView style={{flex: 1, paddingTop: 15, padding: 20}}>
-      <View key="id">
-        <Image
-          source={{uri: img}}
-          resizeMode="cover"
-          style={{
-            width: '100%',
-            height: 200,
-            borderRadius: 15,
-            marginBottom: 10,
-          }}
-        />
+    <ScrollView>
+      <Image
+        source={{uri: img}}
+        resizeMode="cover"
+        style={{
+          width: '100%',
+          height: 250,
+        }}
+      />
+      <View key="id" style={{padding: 9}}>
         <Text
           style={{
             fontFamily: 'Poppins-Bold',
@@ -36,13 +36,16 @@ const Post = ({route, navigation}) => {
             marginTop: 20,
             marginBottom: 20,
           }}>
-          {title.replace(regex, '')}
+          {title}
         </Text>
 
         <HTML
           html={content}
           contentWidth={width}
-          imagesMaxWidth={width}
+          // imagesMaxWidth={width}
+          onLinkPress={(evt, href) => {
+            Linking.openURL(href);
+          }}
           ignoredTags={[...IGNORED_TAGS, 'svg', 'iframe']}
           ignoredStyles={[
             'display',
@@ -72,10 +75,6 @@ const Post = ({route, navigation}) => {
               marginBottom: 30,
               marginTop: 20,
             },
-            iframe: {
-              marginTop: 20,
-              marginBottom: 20,
-            },
           }}
         />
       </View>
@@ -84,3 +83,10 @@ const Post = ({route, navigation}) => {
 };
 
 export default Post;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+});

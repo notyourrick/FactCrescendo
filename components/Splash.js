@@ -3,7 +3,7 @@ import React from 'react';
 
 const Splash = ({navigation}) => {
   setTimeout(() => {
-    navigation.replace('Posts');
+    navigation.replace('Home');
   }, 2000);
 
   return (

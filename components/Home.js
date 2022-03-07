@@ -10,6 +10,7 @@ import {
   ImageBackground,
   RefreshControl,
 } from 'react-native';
+import colors from '../assets/colors/colors';
 
 const Home = ({navigation}) => {
   const [posts, setPosts] = useState([]);
@@ -113,7 +114,9 @@ const Home = ({navigation}) => {
                   <View style={styles.feedFlex}>
                     <View>
                       <Text style={styles.feedText}>{item.title.rendered}</Text>
-                      <Text style={styles.authorText}>Author name</Text>
+                      <TouchableOpacity style={styles.authorTextView}>
+                        <Text style={styles.authorText}> Author name </Text>
+                      </TouchableOpacity>
                     </View>
                     <Image
                       source={{uri: item.yoast_head_json.og_image[0].url}}
@@ -173,6 +176,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     borderRadius: 10,
+    borderColor: colors.primary,
+    borderWidth: 2,
   },
   slidertext: {
     fontFamily: 'Poppins-ExtraBold',
@@ -201,25 +206,35 @@ const styles = StyleSheet.create({
   },
   feedText: {
     width: 250,
-    height: 85,
-    marginRight: 20,
+    height: 80,
     fontFamily: 'Poppins-Bold',
     color: '#524f4a',
   },
+  authorTextView: {
+    padding: 0.5,
+    width: 150,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   authorText: {
     fontFamily: 'Poppins-Bold',
-    marginTop: -10,
     color: 'grey',
   },
   feedImg: {
-    width: 90,
-    height: 100,
+    width: 100,
+    height: 110,
     borderRadius: 9,
     resizeMode: 'cover',
+    marginLeft: 10,
+    borderColor: colors.primary,
+    borderWidth: 2,
   },
   loadingStyle: {
     flex: 1,
     justifyContent: 'center',
-    alignContent: 'center',
+    alignItems: 'center',
   },
 });

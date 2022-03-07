@@ -1,9 +1,9 @@
 const colors = {
-  white: '#edf2f4',
+  white: '#F8F8F9',
   dark: '#2b2d42',
-  gray: '#8d99ae',
-  lioghtred: '#ef233c',
-  red: '#d90429',
+  gray: '#B4B5CB',
+  secondary: '#F2B556',
+  primary: '#196DF9',
 };
 
 export default colors;

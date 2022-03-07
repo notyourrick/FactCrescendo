@@ -71,10 +71,15 @@ const Detail = ({navigation, route}) => {
               lineHeight: 30,
               fontSize: 16,
               color: 'gray',
+              marginBottom: 15,
             },
             img: {
               marginBottom: 30,
               marginTop: 20,
+            },
+            figure: {
+              marginLeft: -18,
+              paddingVertical: 10,
             },
           }}
         />
@@ -145,8 +150,7 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   contentView: {
-    paddingTop: 20,
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingVertical: 10,
   },
 });

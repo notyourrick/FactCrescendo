@@ -11,12 +11,14 @@ import {
   RefreshControl,
 } from 'react-native';
 import colors from '../assets/colors/colors';
+import Moment from 'moment';
 
 const Home = ({navigation}) => {
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const apiUrl = 'https://www.factcrescendo.com/wp-json/wp/v2';
+  Moment.locale('en');
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -41,7 +43,7 @@ const Home = ({navigation}) => {
 
   const getPosts = () => {
     setLoading(true);
-    fetch(`${apiUrl}/posts`)
+    fetch(`${apiUrl}/posts?per_page=25`)
       .then(res => res.json())
       .then(json => setPosts(json))
       .catch(err => console.log(err));
@@ -78,6 +80,7 @@ const Home = ({navigation}) => {
                       title: item.title.rendered,
                       content: item.content.rendered,
                       img: item.yoast_head_json.og_image[0].url,
+                      date: item.date,
                     })
                   }>
                   <View style={styles.sliderWrapper}>
@@ -98,10 +101,10 @@ const Home = ({navigation}) => {
             <Text style={styles.topPickText}>Top Picks</Text>
           </View>
 
-          <View>
+          <View style={styles.feed}>
             {/* feed */}
             {posts.map((item, index) => (
-              <View key={index}>
+              <View key={index} style={{elevation: 2}}>
                 <TouchableOpacity
                   style={styles.feedWrapper}
                   onPress={() =>
@@ -109,13 +112,16 @@ const Home = ({navigation}) => {
                       title: item.title.rendered,
                       content: item.content.rendered,
                       img: item.yoast_head_json.og_image[0].url,
+                      date: item.date,
                     })
                   }>
                   <View style={styles.feedFlex}>
                     <View>
                       <Text style={styles.feedText}>{item.title.rendered}</Text>
                       <TouchableOpacity style={styles.authorTextView}>
-                        <Text style={styles.authorText}> Author name </Text>
+                        <Text style={styles.authorText}>
+                          {Moment(item.date).format('d MMM Y')}{' '}
+                        </Text>
                       </TouchableOpacity>
                     </View>
                     <Image
@@ -143,15 +149,17 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
   },
   dateText: {
     fontFamily: 'Poppins-Regular',
+    fontWeight: 'bold',
     marginBottom: 10,
+    color: colors.primary,
   },
   discoverWrapper: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     padding: 20,
   },
   discover: {
@@ -195,6 +203,9 @@ const styles = StyleSheet.create({
     fontSize: 19,
     color: 'black',
   },
+  feed: {
+    paddingHorizontal: 5,
+  },
   feedWrapper: {
     backgroundColor: '#fff',
     padding: 20,
@@ -212,7 +223,7 @@ const styles = StyleSheet.create({
   },
   authorTextView: {
     padding: 0.5,
-    width: 150,
+    width: 110,
     borderWidth: 1,
     borderColor: colors.primary,
     borderRadius: 15,
@@ -233,8 +244,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   loadingStyle: {
-    flex: 1,
-    justifyContent: 'center',
+    marginVertical: 350,
     alignItems: 'center',
   },
 });

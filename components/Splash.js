@@ -4,8 +4,8 @@ import colors from '../assets/colors/colors';
 
 const Splash = ({navigation}) => {
   setTimeout(() => {
-    navigation.replace('Home');
-  }, 2000);
+    navigation.replace('TabNavigator');
+  }, 1000);
 
   return (
     <View style={styles.container}>
@@ -25,18 +25,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.primary,
   },
   logoText: {
     fontFamily: 'Poppins-ExtraBold',
     fontSize: 45,
-    color: colors.primary,
+    color: '#fff',
     textAlign: 'left',
     marginLeft: -15,
   },
   subText: {
     fontFamily: 'Poppins-ExtraBold',
     fontSize: 14,
-    color: colors.dark,
+    color: '#fff',
     letterSpacing: 1.5,
   },
 });

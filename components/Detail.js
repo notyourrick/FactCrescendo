@@ -13,13 +13,14 @@ import {
 import HTML from 'react-native-renders-html';
 import {IGNORED_TAGS} from 'react-native-renders-html/src/HTMLUtils';
 import colors from '../assets/colors/colors';
+import Moment from 'moment';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 
 const height = Dimensions.get('window').height;
 
 const Detail = ({navigation, route}) => {
-  const {title, content, img} = route.params;
+  const {title, content, img, date} = route.params;
   const {width} = useWindowDimensions();
 
   return (
@@ -28,7 +29,7 @@ const Detail = ({navigation, route}) => {
         <TouchableOpacity
           style={styles.backIcon}
           onPress={() => navigation.goBack()}>
-          <Entypo name="chevron-left" size={32} color={colors.gray} />
+          <Entypo name="chevron-left" size={32} color={colors.black} />
         </TouchableOpacity>
       </View>
 
@@ -41,8 +42,8 @@ const Detail = ({navigation, route}) => {
       </View>
 
       <View style={styles.subHead}>
-        <Text style={styles.authorText}>Rashi Jain</Text>
-        <Text style={styles.dateText}>Sat, Mar 5</Text>
+        {/* <Text style={styles.authorText}>Rashi Jain</Text> */}
+        <Text style={styles.dateText}>{Moment(date).format('d MMM Y')}</Text>
       </View>
 
       <View style={styles.contentView}>
@@ -61,6 +62,7 @@ const Detail = ({navigation, route}) => {
             'fontFamily',
             'padding',
             'video',
+            'tranform',
           ]}
           tagsStyles={{
             a: {
@@ -93,7 +95,7 @@ export default Detail;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
   },
   topbar: {
     flexDirection: 'row',
@@ -102,9 +104,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   backIcon: {
+    backgroundColor: '#fff',
     padding: 4,
-    borderColor: colors.gray,
-    borderWidth: 2,
+    borderColor: 'black',
+    borderWidth: 1,
     borderRadius: 100 / 2,
     alignItems: 'center',
   },
@@ -128,7 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleText: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 20,
     color: 'black',
   },

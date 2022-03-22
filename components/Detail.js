@@ -83,6 +83,9 @@ const Detail = ({navigation, route}) => {
               marginLeft: -18,
               paddingVertical: 10,
             },
+            strong: {
+              color: 'black',
+            },
           }}
         />
       </View>

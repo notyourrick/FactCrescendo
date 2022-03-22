@@ -57,7 +57,7 @@ const English = ({navigation}) => {
               resizeMode="cover"
               style={styles.cardimg}
             />
-            <Text style={{fontFamily: 'Poppins-Regular'}}>
+            <Text style={{fontFamily: 'Poppins-Regular', color: 'black'}}>
               {item.title.rendered}
             </Text>
             <Text style={{fontFamily: 'Poppins-Bold', color: colors.primary}}>

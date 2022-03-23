@@ -16,6 +16,7 @@ target 'wprestapi' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+
   target 'wprestapiTests' do
     inherit! :complete
     # Pods for testing

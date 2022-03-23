@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
   Text,
@@ -7,19 +7,33 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import colors from '../assets/colors/colors';
 
 const English = ({navigation}) => {
   const [posts, setPosts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const apiUrl = 'https://english.factcrescendo.com/wp-json/wp/v2';
 
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   const getPosts = () => {
+    setLoading(true);
     fetch(`${apiUrl}/posts?per_page=25`)
       .then(res => res.json())
       .then(json => setPosts(json))
       .catch(err => console.log(err));
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -35,37 +49,49 @@ const English = ({navigation}) => {
   }, []);
 
   return (
-    <ScrollView>
-      <View style={styles.titleView}>
-        <Text style={styles.title}>Fact Crescendo (English)</Text>
-        <Text style={styles.subTitle}>Read Fact checks in English</Text>
-      </View>
-      {posts.map(item => (
-        <View key={item.id}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Detail', {
-                title: item.title.rendered,
-                content: item.content.rendered,
-                img: item.yoast_head_json.og_image[0].url,
-                date: item.date,
-              })
-            }
-            style={styles.card}>
-            <Image
-              source={{uri: item.yoast_head_json.og_image[0].url}}
-              resizeMode="cover"
-              style={styles.cardimg}
-            />
-            <Text style={{fontFamily: 'Poppins-Regular', color: 'black'}}>
-              {item.title.rendered}
-            </Text>
-            <Text style={{fontFamily: 'Poppins-Bold', color: colors.primary}}>
-              Read More
-            </Text>
-          </TouchableOpacity>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      {posts.length > 0 ? (
+        <>
+          <View style={styles.titleView}>
+            <Text style={styles.title}>Fact Crescendo (English)</Text>
+            <Text style={styles.subTitle}>Read Fact checks in English</Text>
+          </View>
+          {posts.map(item => (
+            <View key={item.id}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Detail', {
+                    title: item.title.rendered,
+                    content: item.content.rendered,
+                    img: item.yoast_head_json.og_image[0].url,
+                    date: item.date,
+                  })
+                }
+                style={styles.card}>
+                <Image
+                  source={{uri: item.yoast_head_json.og_image[0].url}}
+                  resizeMode="cover"
+                  style={styles.cardimg}
+                />
+                <Text style={{fontFamily: 'Poppins-Regular', color: 'black'}}>
+                  {item.title.rendered}
+                </Text>
+                <Text
+                  style={{fontFamily: 'Poppins-Bold', color: colors.primary}}>
+                  Read More
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </>
+      ) : (
+        <View style={styles.loadingStyle}>
+          <ActivityIndicator size="large" />
         </View>
-      ))}
+      )}
     </ScrollView>
   );
 };
@@ -102,5 +128,9 @@ const styles = StyleSheet.create({
     borderRadius: 9,
     borderColor: colors.primary,
     borderWidth: 2,
+  },
+  loadingStyle: {
+    marginVertical: 350,
+    alignItems: 'center',
   },
 });

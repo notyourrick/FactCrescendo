@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -11,7 +11,6 @@ import Splash from './components/Splash';
 
 import colors from './assets/colors/colors';
 import Entypo from 'react-native-vector-icons/Entypo';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -42,11 +41,15 @@ const App = () => {
           component={English}
           options={{
             tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons
-                name="book-multiple"
-                size={32}
-                color={color}
-              />
+              <Text
+                style={{
+                  color: color,
+                  fontFamily: 'Poppins-SemiBold',
+                  fontSize: 28,
+                  marginTop: 4,
+                }}>
+                EN
+              </Text>
             ),
           }}
         />
